@@ -1,11 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
 import userRouter from "./routes/user.route.js";
-dotenv.config() // initialize
+import authRouter from "./routes/auth.route.js";
+import dotenv from "dotenv";
+dotenv.config(); // initialize
 
 // Server
 const app = express();
+
+app.use(express.json()); // allow JSON as input of server when user use post method send infomation to server
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000 !!!");
@@ -21,5 +24,6 @@ mongoose
     console.log(err);
   }); //Check if connected fail
 
-  // Create and test api user route in application
-  app.use('/api/user', userRouter)
+// Create and test api user, auth route in application
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);

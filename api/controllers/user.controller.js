@@ -5,7 +5,7 @@ export const test1 = (req, res) => {
 };
 
 export const test2 = (req, res) => {
-    res.json({
-      message: "Hello World 2",
-    });
-  };
+  res.json({
+    message: "Hello World 2",
+  });
+};
