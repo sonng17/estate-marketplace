@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import userRouter from "./routes/user.route.js";
 dotenv.config() // initialize
 
 // Server
@@ -19,3 +20,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   }); //Check if connected fail
+
+  // Create and test api user route in application
+  app.use('/api/user', userRouter)
