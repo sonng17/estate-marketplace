@@ -28,7 +28,7 @@ mongoose
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 
-// Middleware: handle error to shorten and avoid repetitive code, give more comprehensive error
+// Middleware: give more comprehensive detail error when happens error when call api route, shorten and avoid repetitive, specific code from all api route.
 app.use((err, req, res, next) => {
   // Status code and message of error
   const statusCode = err.statusCode || 500;
