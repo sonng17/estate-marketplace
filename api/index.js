@@ -27,3 +27,16 @@ mongoose
 // Create and test api user, auth route in application
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+
+// Middleware: handle error to shorten and avoid repetitive code, give more comprehensive error
+app.use((err, req, res, next) => {
+  // Status code and message of error
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  // Response to client
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});

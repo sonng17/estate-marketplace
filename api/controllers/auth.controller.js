@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   // take infor, encrypted and save
   const { username, email, password } = req.body; // take infomation from cliend sending to server
   const hashedPassword = bcryptjs.hashSync(password, 10); // hashSync: a way to hash, 10: salt number, will combine with password and make it encrypted
@@ -10,10 +12,10 @@ export const signup = async (req, res) => {
   // Debug when have some errors when saving user to db
   try {
     await newUser.save();
+    //create response 
+    res.status(201).json("User created successfully !");
   } catch (error) {
-    res.status(500).json(error.message);
+    next(error); // same with res.status(err.statusCode).json(err.message) but shorten and auto, more detail error
+    //next(errorHandler(550, "Error from the function")); //test manual error
   }
-
-  //create response
-  res.status(201).json("User created successfully !");
 };
