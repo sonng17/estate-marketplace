@@ -15,7 +15,7 @@ export const signup = async (req, res, next) => {
     //create response 
     res.status(201).json("User created successfully !");
   } catch (error) {
-    next(error); // same with res.status(err.statusCode).json(err.message) but shorten and auto, more detail error
+    next(error); // same with res.status(err.statusCode).json(err.message) but shorten and auto, more detail error using middleware
     //next(errorHandler(550, "Error from the function")); //test manual error
   }
 };
