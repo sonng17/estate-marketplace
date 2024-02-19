@@ -1,12 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice.js";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({}); // to save form information
-  const [loading, setLoading] = useState(false); // to set loanding effect
-  const [error, setError] = useState(null); // to debug if error happend
+  // const [loading, setLoading] = useState(false); // to set loanding effect
+  // const [error, setError] = useState(null); // to debug if error happend
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate(); // to navigate when sign up successfully
+  const dispatch = useDispatch();
 
   // Handle changes when type input
   const handleChange = (e) => {
@@ -21,7 +29,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault(); //Prevent reload page when submit
     try {
-      setLoading(true);
+      dispatch(signInStart());
       // send sign up request and get response
       const res = await fetch("api/auth/signin", {
         // fetch is JS methods to get resources from server by send HTTP request and return a promise
@@ -37,16 +45,13 @@ export default function SignIn() {
       // Debug and handle error
       // if submit false
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        dispatch(signInFailure(data.message));
         return; // return to end submit function, prevent navigate to home page
       } // otherwise
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
 
