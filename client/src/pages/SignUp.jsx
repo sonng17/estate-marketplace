@@ -3,35 +3,44 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({}); // to save form information
+  const [loading, setLoading] = useState(false); // to set loanding effect
+  const [error, setError] = useState(null); // to debug if error happend
+  const navigate = useNavigate(); // to navigate when sign up successfully
 
+  // Handle changes when type input
   const handleChange = (e) => {
     setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
+      ...formData, // to keep information, dont want to lose track
+      [e.target.id]: e.target.value, // add new changes
     });
   };
+  console.log(formData);
+
+  // Handle changes when submit the form to db
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Prevent reload page when submit
     try {
       setLoading(true);
+      // send sign up request and get response
       const res = await fetch("api/auth/signup", {
+        // fetch is JS methods to get resources from server by send HTTP request and return a promise
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
-      }); //Prevent reload page when submit
-      const data = await res.json();
+        body: JSON.stringify(formData), // need to stringify formData to string to send it to internet
+      });
+      const data = await res.json(); // convert response from promise to JSON to use and handle code
       console.log(data);
+
+      // Debug and handle error
+      // if submit false
       if (data.success === false) {
         setLoading(false);
         setError(data.message);
-        return;
-      }
+        return; // return to end submit function, prevent navigate to home page
+      } // otherwise
       setLoading(false);
       setError(null);
       navigate("/sign-in");
@@ -44,7 +53,7 @@ export default function SignUp() {
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
-      <form onSubmit={handleSubmit} action="" className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="username"
