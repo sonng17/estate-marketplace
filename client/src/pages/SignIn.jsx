@@ -7,6 +7,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../redux/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({}); // to save form information
@@ -23,7 +24,6 @@ export default function SignIn() {
       [e.target.id]: e.target.value, // add new changes
     });
   };
-  console.log(formData);
 
   // Handle changes when submit the form to db
   const handleSubmit = async (e) => {
@@ -40,7 +40,6 @@ export default function SignIn() {
         body: JSON.stringify(formData), // need to stringify formData to string to send it to internet
       });
       const data = await res.json(); // convert response from promise to JSON to use and handle code
-      console.log(data);
 
       // Debug and handle error
       // if submit false
@@ -80,6 +79,7 @@ export default function SignIn() {
         >
           {loading ? "Loading..." : "Sign in"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont an account?</p>
