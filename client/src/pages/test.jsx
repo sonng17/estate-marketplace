@@ -19,13 +19,13 @@ export default function Profile() {
   // allow read;
   // allow write: if
   // request.resource.size < 2 * 1024 * 1024 &&
-  // request.resource.contentType.matches('image./*')
+  // request.resource.contentType.matches('image/.*')
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
     }
   }, [file]);
-  const handleFileUpload = () => {
+  const handleFileUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
@@ -41,9 +41,9 @@ export default function Profile() {
         setFileUploadError(true);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData({ ...formData, avatar: downloadURL });
-        });
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, avatar: downloadURL })
+        );
       }
     );
   };
@@ -62,9 +62,9 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={currentUser.avatar}
+          src={formData.avatar || currentUser.avatar}
           alt="profile"
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2 "
+          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
         <p className="text-sm self-center">
           {fileUploadError ? (
@@ -82,23 +82,23 @@ export default function Profile() {
         <input
           type="text"
           placeholder="username"
-          className="bolder p-3 rounded-lg"
           id="username"
+          className="border p-3 rounded-lg"
         />
         <input
           type="email"
           placeholder="email"
-          className="bolder p-3 rounded-lg"
           id="email"
+          className="border p-3 rounded-lg"
         />
         <input
           type="text"
           placeholder="password"
-          className="bolder p-3 rounded-lg"
           id="password"
+          className="border p-3 rounded-lg"
         />
         <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
-          Update
+          update
         </button>
       </form>
       <div className="flex justify-between mt-5">
