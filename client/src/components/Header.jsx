@@ -10,7 +10,7 @@ export default function Header() {
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
             {/* text-sm: mobile size, sm:text-xl: pc size */}
-            <span className="text-slate-500">Hanoi</span>
+            <span className="text-slate-500">Hanoi</span>&nbsp;
             <span className="text-slate-700">Estate</span>
           </h1>
         </Link>
